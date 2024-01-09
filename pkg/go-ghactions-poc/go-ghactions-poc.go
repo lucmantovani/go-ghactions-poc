@@ -9,6 +9,9 @@ type GoGHActionsPOC struct{}
 
 func (g *GoGHActionsPOC) Hello() {
 	var m string
-	json.Unmarshal([]byte("Hello World!"), &m)
+	err := json.Unmarshal([]byte("Hello World!"), &m)
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Println(m)
 }
