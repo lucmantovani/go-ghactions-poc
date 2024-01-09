@@ -41,6 +41,7 @@ jobs:
 
     - name: Check coverage
       uses: vladopajic/go-test-coverage@v2
+      if: always()
       with:
         profile: cover.out
         threshold-file: 80
