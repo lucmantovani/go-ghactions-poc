@@ -52,5 +52,5 @@ jobs:
       if: always()
       uses: guyarb/golang-test-annotations@v0.7.0
       with:
-        test-results: /test.json
+        test-results: ./test.json
         package-name: goghactionspoc
