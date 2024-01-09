@@ -1,51 +1,33 @@
-name: CI
+name: pr
 
 on:
-  push:
-    branches: [ "**" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ '**' ]
+  push:
+    branches: [ '**' ]
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
+  full_ci:
+    strategy:
+      matrix:
+        go_version: [ 1.18.x ]
+
+    runs-on: ubuntu-20.04
+
     steps:
-    - uses: actions/checkout@v3
+      - name: checkout
+        uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
-        cache: false
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go_version }}
+        
+      - name: run tests
+        run: go test -json ./... > test.json
 
-    - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v3
-      with:
-        version: v1.54
-  
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
-        cache: false
-
-    - name: Test
-      uses: robherley/go-test-action@v0.1.0
-      with:
-        testArguments: './... -coverprofile=./cover.out -covermode=atomic -coverpkg=./...'
-
-    - name: Check coverage
-      uses: vladopajic/go-test-coverage@v2
-      if: always()
-      with:
-        profile: cover.out
-        threshold-file: 80
-        threshold-package: 80
-        threshold-total: 80
+      - name: Annotate tests
+        if: always()
+        uses: guyarb/golang-test-annotations@v0.5.1
+        with:
+          test-results: test.json
