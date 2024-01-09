@@ -37,7 +37,7 @@ jobs:
     - name: Test
       uses: robherley/go-test-action@v0.1.0
       with:
-        testArguments: './... -coverprofile=./cover.out -covermode=atomic -coverpkg=./... > test.json'
+        testArguments: './... -coverprofile=./cover.out -covermode=atomic -coverpkg=./...'
 
     - name: Check coverage
       uses: vladopajic/go-test-coverage@v2
@@ -48,9 +48,12 @@ jobs:
         threshold-package: 80
         threshold-total: 95
 
+    - name: Test
+      run: go test -json ./... > test.json
+
     - name: Annotate tests
       if: always()
       uses: guyarb/golang-test-annotations@v0.7.0
       with:
-        test-results: ./test.json
+        test-results: test.json
         package-name: goghactionspoc
