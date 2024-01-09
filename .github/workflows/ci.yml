@@ -17,6 +17,7 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.20'
+        cache: false
 
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v3
@@ -33,6 +34,18 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.20'
+        cache: false
 
     - name: Test
       uses: robherley/go-test-action@v0.1.0
+      with:
+        testArguments: './... -coverprofile=./cover.out -covermode=atomic -coverpkg=./...'
+
+    - name: Check coverage
+      uses: vladopajic/go-test-coverage@v2
+      if: always()
+      with:
+        profile: cover.out
+        threshold-file: 80
+        threshold-package: 80
+        threshold-total: 80
