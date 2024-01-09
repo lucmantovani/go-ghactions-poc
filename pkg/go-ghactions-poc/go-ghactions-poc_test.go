@@ -11,4 +11,5 @@ func TestHello(t *testing.T) {
 func TestHello2(t *testing.T) {
 	g := GoGHActionsPOC{}
 	g.Hello()
+	t.Fatal ("Hello 2")
 }
