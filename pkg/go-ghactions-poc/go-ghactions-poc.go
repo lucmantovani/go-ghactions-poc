@@ -1,10 +1,14 @@
 package goghactionspoc
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 type GoGHActionsPOC struct{}
 
 func (g *GoGHActionsPOC) Hello() {
-	a := 10
-	fmt.Println("Hello World!")
+	var m string
+	json.Unmarshal([]byte("Hello World!"), &m)
+	fmt.Println(m)
 }
