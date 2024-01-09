@@ -36,9 +36,3 @@ jobs:
 
     - name: Test
       run: go test -json ./... > test.json
-
-    - name: Annotate tests
-      uses: guyarb/golang-test-annotations@v0.5.1
-      if: always()
-      with:
-        test-results: test.json
