@@ -35,4 +35,4 @@ jobs:
         go-version: '1.20'
 
     - name: Test
-      run: go test -json ./... > test.json
+      uses: robherley/go-test-action@v0.1.0
